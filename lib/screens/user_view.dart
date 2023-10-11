@@ -1,3 +1,6 @@
+import 'package:expenses_tracker/constands/routes.dart';
+import 'package:expenses_tracker/models/Category.dart';
+import 'package:expenses_tracker/services/crud/local_service.dart';
 import 'package:flutter/material.dart';
 
 class UserView extends StatefulWidget {
@@ -7,27 +10,68 @@ class UserView extends StatefulWidget {
   State<UserView> createState() => _UserViewState();
 }
 
-class _UserViewState extends State<UserView> {  
+class _UserViewState extends State<UserView> {
+  final LocalDatabaseService localDatabaseService = LocalDatabaseService();
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Expenses Tracker'),
-      ),
-      body:Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          MyListViewWithWrap(  
-          [
-          MyListItem('Gass', const Icon(Icons.local_gas_station)),
-          MyListItem('Petrol',const Icon(Icons.gas_meter_outlined)),
-          ]
+        appBar: AppBar(
+          title: const Text('Expenses Tracker'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, addCategoryRoute);
+                },
+                icon: const Icon(Icons.add)),
+            PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: TextButton(
+                    child: const Text('Clear Database'),
+                    onPressed: () async {
+                      await localDatabaseService.clearDatabase();
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-        ],),
-      )
-    );
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FutureBuilder(
+                  future: localDatabaseService.getAllCategories(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final categories = snapshot.data as List<Category>;
+                      return MyListViewWithWrap(
+                        categories
+                            .map((category) => MyListItem(
+                                category.name,
+                                const Icon(
+                                  Icons.category,
+                                  color: Colors.orange,
+                                )))
+                            .toList(),
+
+                        //   [
+                        //   MyListItem('Gass', const Icon(Icons.local_gas_station)),
+                        //   MyListItem(
+                        //       'Petrol', const Icon(Icons.gas_meter_outlined)),
+                        // ]
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    return const CircularProgressIndicator();
+                  }),
+            ],
+          ),
+        ));
   }
 }
 
@@ -100,16 +144,15 @@ class MyListViewWithWrap extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: 150, 
+        width: 150,
         child: ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.all(10),
           children: <Widget>[
             Wrap(
-              spacing: 8.0, // Horizontal spacing between items
-              runSpacing: 8.0, // Vertical spacing between rows
-              children: [...items]
-            ),
+                spacing: 8.0, // Horizontal spacing between items
+                runSpacing: 8.0, // Vertical spacing between rows
+                children: [...items]),
           ],
         ),
       ),
