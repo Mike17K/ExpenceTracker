@@ -2,7 +2,7 @@ import 'package:expenses_tracker/constands/local_database.dart';
 
 class Category {
   final String name;
-  final String id;
+  final int id;
 
   Category({required this.name, required this.id});
 

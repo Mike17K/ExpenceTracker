@@ -1,8 +1,8 @@
 import 'package:expenses_tracker/constands/local_database.dart';
 
 class Expense {
-  final String id;
-  final String categoryId;
+  final int id;
+  final int categoryId;
   final double amount;
   final DateTime date;
   final String description;

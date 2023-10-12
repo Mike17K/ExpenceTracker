@@ -5,7 +5,7 @@ const categoryId = 'id';
 const categoryName = 'name';
 
 const createCategoryTableQuery = '''
-CREATE TABLE $categoryTable (
+CREATE TABLE IF NOT EXISTS $categoryTable (
   $categoryId INTEGER PRIMARY KEY AUTOINCREMENT,
   $categoryName TEXT
 )
@@ -19,7 +19,7 @@ const expenseDate = 'date';
 const expenseDescription = 'description';
 
 const createExpenseTableQuery = '''
-CREATE TABLE $expenseTable (
+CREATE TABLE IF NOT EXISTS $expenseTable (
   $expenseId INTEGER PRIMARY KEY AUTOINCREMENT,
   $expenseCategoryId INTEGER,
   $expenseAmount REAL,

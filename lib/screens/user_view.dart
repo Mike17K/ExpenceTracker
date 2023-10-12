@@ -28,6 +28,14 @@ class _UserViewState extends State<UserView> {
               itemBuilder: (context) => [
                 PopupMenuItem(
                   child: TextButton(
+                    child: const Text('Refresh'),
+                    onPressed: () {
+                      setState(() {});
+                    },
+                  ),
+                ),
+                PopupMenuItem(
+                  child: TextButton(
                     child: const Text('Clear Database'),
                     onPressed: () async {
                       await localDatabaseService.clearDatabase();
@@ -50,7 +58,7 @@ class _UserViewState extends State<UserView> {
                       final categories = snapshot.data as List<Category>;
                       return MyListViewWithWrap(
                         categories
-                            .map((category) => MyListItem(
+                            .map((category) => MyCategoryItem(
                                 category.name,
                                 const Icon(
                                   Icons.category,
@@ -75,11 +83,11 @@ class _UserViewState extends State<UserView> {
   }
 }
 
-class MyListItem extends StatelessWidget {
+class MyCategoryItem extends StatelessWidget {
   final String title;
   final Icon image;
 
-  MyListItem(this.title, this.image);
+  MyCategoryItem(this.title, this.image);
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +101,7 @@ class MyListItem extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -101,7 +109,7 @@ class MyListItem extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Navigator.pushNamed(context, "/${title.toLowerCase()}");
+            Navigator.pushNamed(context, categoryPageRoute, arguments: title);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -110,17 +118,17 @@ class MyListItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
                     color: Colors.orange[100],
                     shape: BoxShape.circle,
                   ),
                   child: image,
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
