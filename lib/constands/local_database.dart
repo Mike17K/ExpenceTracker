@@ -25,6 +25,6 @@ CREATE TABLE IF NOT EXISTS $expenseTable (
   $expenseAmount REAL,
   $expenseDate TEXT,
   $expenseDescription TEXT,
-  FOREIGN KEY ($expenseCategoryId) REFERENCES $categoryTable($categoryId)
+  FOREIGN KEY ($expenseCategoryId) REFERENCES $categoryTable($categoryId) ON DELETE CASCADE
 )
 ''';

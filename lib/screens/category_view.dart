@@ -23,6 +23,12 @@ class _CategoryViewState extends State<CategoryView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(categoryName),
+        actions: [
+          IconButton(onPressed:(){
+            localDatabaseService.deleteCategoryByName(categoryName);
+            Navigator.pop(context);
+          } , icon: const Icon(Icons.delete)),
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

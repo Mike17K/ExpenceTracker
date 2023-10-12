@@ -1,8 +1,6 @@
 import 'package:expenses_tracker/constands/routes.dart';
 import 'package:expenses_tracker/screens/add_category_view.dart';
 import 'package:expenses_tracker/screens/category_view.dart';
-import 'package:expenses_tracker/screens/gass_view.dart';
-import 'package:expenses_tracker/screens/petrol_view.dart';
 import 'package:expenses_tracker/screens/user_view.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
